@@ -11,19 +11,19 @@ use SyslogScan::Daemon::Plugin;
 our(@ISA) = qw(SyslogScan::Daemon::Plugin);
 our $debug = 0;
 our $configfile = '';
-our $VERSION = 0.3;
+our $VERSION = 0.41;
 
 #
 # These are hard-coded rather than configured because they're universal and
 # should be shared by all users of this code.
 #
-my $recipient_reject_rx = qr{Blacklist for this recipient|Recipient address rejected|mailbox \S+ is blacklisted|Email address unknown|This user doesn't have a \S+ account|This email receives too much spam, please remove it from the To: };
+my $recipient_reject_rx = qr{Blacklist for this recipient|Recipient address rejected|mailbox \S+ is blacklisted|Email address unknown|This user doesn't have a \S+ account|This email receives too much spam, please remove it from the To: |to=<(.*?)>.*554 blacklisted \(\1\)};
 
 my $realtime_reject_rx = qr{Spamming not allowed|Stop Spamming\.\s*You are being monitored!|Remove lines beginning with|The EMail\s+is Blacklisted};
 
 my $content_reject_rx = qr{(?:\b|\d\d\d-)(in the content|out of your message and resend|A URL in the email is Blacklisted|Blacklisted URL in message|Message contains blacklisted domain|contains links to an IP address that is blacklisted|because its checksum is in|message content unacceptable|Mail contained a URL rejected by|No user with this name is found at|URL MATCH|The EMail \S+\@\S+ is Blacklisted|http://postmaster.info.aol.com/errors/554hvub1.html|user account is.*?blacklisted|Matched regular expression|\S+\@\S+ address is blacklisted|No such user)\b|this domain doesn't accept mail|Blacklisted file extension detected|This message matches a blacklisted|message was identified as junk mail, score|Message body contains|http:\/\/lookup\.uribl\.com/\?domain=};
 
-my $sender_reject_rx = qr{(The From Address\s+blacklisted or blank|Sender address rejected)};
+my $sender_reject_rx = qr{(The From Address\s+blacklisted or blank|Sender address rejected|Sender is on our global blacklist|The EMail \(from\)\s+is Blacklisted|550 Sender verify failed)};
 
 my %defaults = (
 	debug		=> 0,
