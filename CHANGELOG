@@ -1,0 +1,9 @@
+
+= 2007/01/21	0.36
+
+Major bug fixed: parameters weren't passed through.  The
+module didn't work.  Now it does.
+
+Search for the string "Spam source" as an indication of
+a problem.
+

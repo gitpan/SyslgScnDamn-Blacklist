@@ -7,3 +7,5 @@ lib/SyslogScan/Daemon/BlacklistDetector/Postfix.pod
 Makefile.PL
 MANIFEST
 META.yml                                 Module meta-data (added by MakeMaker)
+CHANGELOG
+README

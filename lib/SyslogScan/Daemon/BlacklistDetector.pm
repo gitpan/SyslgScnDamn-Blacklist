@@ -11,7 +11,7 @@ use SyslogScan::Daemon::Plugin;
 our(@ISA) = qw(SyslogScan::Daemon::Plugin);
 our $debug = 0;
 our $configfile = '';
-our $VERSION = 0.41;
+our $VERSION = 0.42;
 
 #
 # These are hard-coded rather than configured because they're universal and
