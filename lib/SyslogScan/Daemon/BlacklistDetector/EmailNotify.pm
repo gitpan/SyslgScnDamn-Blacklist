@@ -85,7 +85,7 @@ sub blacklisted
 		From	=> "\u$0",
 		from	=> $sendfrom,
 		to	=> $notify,
-		subject	=> "(2) We are blackholed by $destdomain\n",
+		subject	=> "We are blackholed by $destdomain\n",
 		body	=> $body,
 	);
 }
