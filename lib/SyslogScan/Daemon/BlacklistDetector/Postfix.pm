@@ -48,7 +48,7 @@ sub get_logs
 	my $Date = $self->{Date};
 	return (
 		$self->{logpath}	=> [
-			qr{^$Date \S+ postfix(?:-(\S+))?/smtp\[\d+\]: \w+: to=<([^@]+@([^>]+))>, .*, status=(bounced)(.*\b(?i:blacklist(ed)?|spamming|spam list|removal|remove|block list|blocked for abuse|Spam source|rejected for policy reasons)\b.*)},
+			qr{^$Date \S+ postfix(?:-(\S+))?/smtp\[\d+\]: \w+: to=<([^@]+@([^>]+))>, .*, status=(bounced)(.*\b(?i:blacklist(ed)?|spamming|spam list|removal|remove|block list|blocked for abuse|Spam source|rejected (by .* )?for policy reasons)\b.*)},
 			qr{^$Date \S+ postfix(?:-(\S+))?/smtp\[\d+\]: \w+: to=<([^@]+@([^>]+))>, .*, status=(deferred)(.*Rejected: \S+ listed at http.*)},
 			qr{^$Date \S+ postfix(?:-(\S+))?/smtp\[\d+\]: \w+: to=<([^@]+@([^>]+))>, .*, status=(deferred)(.* blocked using .* Please see http.*)},
 			qr{^$Date \S+ postfix(?:-(\S+))?/smtp\[\d+\]: \w+: to=<([^@]+@([^>]+))>, .*, status=(deferred)(.*421-:\s*postmaster.info.aol.com/errors.*)},

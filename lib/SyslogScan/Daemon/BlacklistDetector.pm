@@ -9,17 +9,20 @@ use Plugins::SimpleConfig;
 use SyslogScan::Daemon::Plugin;
 
 our(@ISA) = qw(SyslogScan::Daemon::Plugin);
-our $VERSION = 0.43;
+our $VERSION = 0.44;
 
 #
 # These are hard-coded rather than configured because they're universal and
 # should be shared by all users of this code.
 #
-my $recipient_reject_rx = qr{Blacklist for this recipient|Recipient address rejected|mailbox \S+ is blacklisted|Email address unknown|This user doesn't have a \S+ account|This email receives too much spam, please remove it from the To: |to=<(.*?)>.*554 blacklisted \(\1\)|550 <\S+> is not a valid mailbox|sorry, that domain isn't in my list of allowed rcpthosts};
+# These are 2nd-level matches that explain away bounces.  The first-level
+# match is currently done in BlacklistDetector/Postfix.pm
+#
+my $recipient_reject_rx = qr{Blacklist for this recipient|Recipient address rejected|mailbox \S+ is blacklisted|Email address unknown|This user doesn't have a \S+ account|This email receives too much spam, please remove it from the To: |to=<(.*?)>.*554 blacklisted \(\1\)|550 <\S+> is not a valid mailbox|sorry, that domain isn't in my list of allowed rcpthosts|550 \S+ unknown user account};
 
 my $realtime_reject_rx = qr{Spamming not allowed|Stop Spamming\.\s*You are being monitored!|Remove lines beginning with|The EMail\s+is Blacklisted};
 
-my $content_reject_rx = qr{(?:\b|\d\d\d-)(in the content|out of your message and resend|A URL in the email is Blacklisted|Blacklisted URL in message|Message contains blacklisted domain|contains links to an IP address that is blacklisted|because its checksum is in|message content unacceptable|Mail contained a URL rejected by|No user with this name is found at|URL MATCH|The EMail \S+\@\S+ is Blacklisted|http://postmaster.info.aol.com/errors/554hvub1.html|user account is.*?blacklisted|Matched regular expression|\S+\@\S+ address is blacklisted|No such user)\b|this domain doesn't accept mail|Blacklisted file extension detected|This message matches a blacklisted|message was identified as junk mail, score|Message body contains|http:\/\/lookup\.uribl\.com/\?domain=|Blocked by policy: blacklisted URL in mail|Message rejected - blacklisted URLs};
+my $content_reject_rx = qr{(?:\b|\d\d\d-|\s)(in the content|out of your message and resend|A URL in the email is Blacklisted|[bB]lacklisted URL in (?:message|mail)|Message contains blacklisted domain|contains links to an IP address that is blacklisted|because its checksum is in|message content unacceptable|Mail contained a URL rejected by|No user with this name is found at|URL MATCH|The EMail \S+\@\S+ is Blacklisted|http://postmaster.info.aol.com/errors/554hvub1.html|user account is.*?blacklisted|Matched regular expression|\S+\@\S+ address is blacklisted|No such user|this domain doesn't accept mail|Blacklisted file extension detected|This message matches a blacklisted|message was identified as junk mail, score|Message body contains|http:\/\/lookup\.uribl\.com/\?domain=|Blocked by p licy: blacklisted URL in mail|Message rejected - blacklisted URLs|For security reasons we do not accept messages containing images|URL in message blacklisted)\b};
 
 my $sender_reject_rx = qr{(The From Address\s+blacklisted or blank|Sender address rejected|Sender is on our global blacklist|The EMail \(from\)\s+is Blacklisted|550 Sender verify failed)};
 
